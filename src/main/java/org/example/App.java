@@ -5,74 +5,105 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Arrays;
 
-public class App extends Main {
-    private static DefaultTableModel model;
-    private JTextField field;
-    private JFrame frame;
-    private File inputFile;
-    private File outputFile;
+import static org.example.Main.FindWinner;
+import static org.example.Main.PrintBoardAndWinner;
+import static org.example.Reader.ReadFile;
+import static org.example.Writer.WriteFile;
+
+public class App {
+    private DefaultTableModel model;
+    private final JTextField field;
+    private int rows = 5;
+    private int columns = 5;
 
     public App() {
-        frame = new JFrame("Five in a row!");
+        JFrame frame = new JFrame("Five in a row!");
+        frame.setTitle("Five in a row!");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
+        frame.setSize(600, 400);
+
         frame.setLayout(new BorderLayout());
 
-        model = new DefaultTableModel(new Object[]{"Five in a row!"}, 0);
-        model.addRow(new Object[]{"Приветствую! Введи путь к файлу с игрой и путь к месту, где хочешь сохранить результат в формате: \"{путь к файлу}\\input.txt {путь к файлу}\\output.txt\""});
+        model = new DefaultTableModel(rows, columns);
         JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
         frame.add(scrollPane, BorderLayout.CENTER);
 
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BorderLayout());
+
         field = new JTextField();
-        frame.add(field, BorderLayout.SOUTH);
+        bottomPanel.add(field, BorderLayout.NORTH);
 
-        frame.setVisible(true);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(2, 2));
 
-        field.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String input = field.getText();
-                //PrintBoardAndWinner();
-                openFile(input);
-                field.setText("");
+        JButton readButton = new JButton("Load file");
+        JButton outputButton = new JButton("Save result");
+        JButton addColumnButton = new JButton("Add column");
+        JButton addRowButton = new JButton("Add row");
+
+        buttonPanel.add(readButton);
+        buttonPanel.add(outputButton);
+        buttonPanel.add(addColumnButton);
+        buttonPanel.add(addRowButton);
+
+        bottomPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        frame.add(bottomPanel, BorderLayout.SOUTH);
+
+        readButton.addActionListener(_ -> {
+            String input = field.getText();
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    model.setValueAt(null, i, j);
+                }
+            }
+
+            if (input.isEmpty()) {
+                model.setColumnCount(5);
+                model.setRowCount(5);
+                rows = 5;
+                columns = 5;
+            } else {
+                int[][] board = ReadFile(input);
+                rows = board.length;
+                columns = board[0].length;
+                model.setRowCount(rows);
+                model.setColumnCount(columns);
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < columns; j++) {
+                        model.setValueAt(board[i][j], i, j);
+                    }
+                }
             }
         });
-    }
 
-    private void openFile(String input) {
-        model.addRow(new Object[]{input});
-        String[] files = input.split(" ");
-    }
 
-    public static int[][] ReadFile(String[] files) {
-        int[][] res;
-        for (String file : files) {
-            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                String line = br.readLine();
-                int lineCntr = 0;
-                while (line != null) {
-                    lineCntr++;//for (String num : line.split(" "))
+        outputButton.addActionListener(_ -> {
+            int[][] outputArray = new int[rows][columns];
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    String val = (String) model.getValueAt(i, j);
+                    outputArray[i][j] = val == null ? 2 : Integer.parseInt(val);
                 }
-                res = new int[lineCntr][];
-
-                br.close();
-                br = new BufferedReader(new FileReader(file));
-            } catch (IOException e) {
-                model.addRow(new Object[]{"Error reading file"});
             }
-        }
-        return res;
-    }
+            //WriteFile(FindWinner(outputArray));
+            PrintBoardAndWinner(outputArray);
+        });
 
-    private void saveFile() {
+        addColumnButton.addActionListener(_ -> {
+            model.setColumnCount(model.getColumnCount() + 1);
+            columns++;
+        });
 
+        addRowButton.addActionListener(_ -> {
+            model.setRowCount(model.getRowCount() + 1);
+            rows++;
+        });
+
+        frame.setVisible(true);
     }
 
     public static void main(String[] args) {

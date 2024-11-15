@@ -1,52 +1,26 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import javax.swing.*;
+
+import static org.example.Reader.ReadFile;
 
 public class Main {
+    static boolean console = false;
+    static App app;
 
     public static void main(String[] args) {
-        PrintBoardAndWinner(new int[][]{
-                {0, 1, 1, 1, 1, 1},
-                {0, 0, 0, 0, 0, 1},
-                {1, 0, 1, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1},
-                {1, 1, 0, 0, 0, 0},
-        });
+        //fast check
+        /*for (int i = 1; i <= 5; i++) {
+            {
+                PrintBoardAndWinner(ReadFile("input" + i + ".txt"));
+            }
+        }*/
 
-        PrintBoardAndWinner(new int[][]{
-                {0, 1, 1, 0, 1, 1},
-                {0, 0, 0, 0, 0, 1},
-                {1, 0, 1, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1},
-                {1, 1, 0, 0, 0, 0},
-        });
-
-        PrintBoardAndWinner(new int[][]{
-                {0, 1, 1, 1, 1, 1},
-                {0, 0, 1, 0, 0, 1},
-                {1, 0, 1, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1},
-                {1, 1, 0, 0, 0, 0},
-        });
-
-        PrintBoardAndWinner(new int[][]{
-                {0, 1, 1, 0, 1, 0, 1, 1, 1},
-                {0, 0, 1, 0, 0, 1, 0, 0, 0},
-                {1, 0, 1, 0, 0, 1, 0, 0, 0},
-                {0, 1, 0, 1, 0, 1, 1, 1, 1},
-                {1, 1, 0, 0, 0, 0, 1, 1, 1},
-        });
-
-        PrintBoardAndWinner(new int[][]{
-                {0, 1, 1, 0, 1, 1},
-                {0, 0, 1, 0, 0, 1},
-                {1, 0, 1, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1},
-                {1, 1, 0, 0, 0, 0},
-                {1, 1, 0, 0, 0, 1},
-        });
+        if (console) {
+            //create console
+        }
+        else
+            new App();
     }
 
     public static void PrintBoardAndWinner(int[][] brd) {
