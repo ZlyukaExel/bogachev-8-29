@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+import static org.example.Main.FindWinner;
 import static org.example.Main.PrintBoardAndWinner;
 import static org.example.Reader.ReadFile;
 import static org.example.Writer.WriteFile;
@@ -88,8 +89,9 @@ public class App {
                     outputArray[i][j] = val == null ? 2 : Integer.parseInt(val);
                 }
             }
-            //WriteFile(FindWinner(outputArray));
-            PrintBoardAndWinner(outputArray);
+            WriteFile(field.getText(), FindWinner(outputArray));
+            field.setText("");
+            //PrintBoardAndWinner(outputArray);
         });
 
         addColumnButton.addActionListener(_ -> {

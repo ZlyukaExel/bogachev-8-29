@@ -12,7 +12,7 @@ public class Main {
         }*/
 
         if (console) {
-            //new ConsoleApp();
+            new ConsoleApp();
         }
         else
             new App();
