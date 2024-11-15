@@ -3,16 +3,13 @@ package org.example;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import static org.example.Main.FindWinner;
 import static org.example.Main.PrintBoardAndWinner;
 import static org.example.Reader.ReadFile;
 import static org.example.Writer.WriteFile;
 
 public class App {
-    private DefaultTableModel model;
+    private final DefaultTableModel model;
     private final JTextField field;
     private int rows = 5;
     private int columns = 5;
@@ -55,6 +52,8 @@ public class App {
 
         readButton.addActionListener(_ -> {
             String input = field.getText();
+            field.setText("");
+
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
                     model.setValueAt(null, i, j);

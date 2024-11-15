@@ -1,12 +1,7 @@
 package org.example;
 
-import javax.swing.*;
-
-import static org.example.Reader.ReadFile;
-
 public class Main {
     static boolean console = false;
-    static App app;
 
     public static void main(String[] args) {
         //fast check
@@ -17,16 +12,16 @@ public class Main {
         }*/
 
         if (console) {
-            //create console
+            //new ConsoleApp();
         }
         else
             new App();
     }
 
     public static void PrintBoardAndWinner(int[][] brd) {
-        for (int[] ints : brd) {
+        for (int[] val : brd) {
             for (int j = 0; j < brd[0].length; j++) {
-                System.out.print(ints[j] + " ");
+                System.out.print(val[j] + " ");
             }
             System.out.println();
         }
