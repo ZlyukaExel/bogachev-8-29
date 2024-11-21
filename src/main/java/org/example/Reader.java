@@ -5,8 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Reader {
+
     public static int[][] ReadFile(String file) {
         int[][] res;
+
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String[] line = br.readLine().trim().split(" ");
