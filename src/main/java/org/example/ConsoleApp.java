@@ -9,9 +9,9 @@ import static org.example.Writer.WriteFile;
 public class ConsoleApp {
     public static final String help = "-i <in-file> [-o <out-file>]";
 
-    public static void main(String[] args) {
+    public ConsoleApp(String[] args) {
         Options cmdLineOptions = new Options();
-        cmdLineOptions.addOption("a", "app-type", false, "Type of the app to launch");
+        //cmdLineOptions.addOption("a", "app-type", false, "Type of the app to launch");
         cmdLineOptions.addOption("i", "input-file", true, "Input file directory");
         cmdLineOptions.addOption("o", "output-file", true, "Output file directory");
 
